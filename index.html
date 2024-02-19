@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Blur Image Progressive</title>
+
+
+
+
+<style>
+h2{
+  text-align: center;
+  font-family: 'Arial',sans-serif;
+  font-size: 30px;
+  font-weight: normal;
+  padding: 50px 0;
+}
+
+.placeholder {
+  background-color: #f6f6f6;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}  
+ 
+.placeholder img {
+  position: absolute;  
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s linear;
+}
+
+.placeholder img.loaded {
+  opacity: 1;
+}
+
+.img-small {
+  filter: blur(50px);
+}	
+</style>
+</head>
+<body>
+
+
+<h2>Responsive Loading image Blur effect</h2>
+
+<div class="placeholder" data-large="https://cdn-images-1.medium.com/max/2000/1*XtTMZ5cZ2KWWVFATIr3dpQ.png">
+  <img src="https://cdn-images-1.medium.com/freeze/max/30/1*XtTMZ5cZ2KWWVFATIr3dpQ.png?q=20" class="img-small">      
+  <div style="padding-bottom: 50%;"></div>     
+</div>     
+
+<h2>Multiple Images</h2>
+
+<div class="placeholder" data-large="https://cdn-images-1.medium.com/max/800/1*JjQfjj2Bez6chdjenCv73g.png">
+  <img src="https://cdn-images-1.medium.com/freeze/max/30/1*JjQfjj2Bez6chdjenCv73g.png?q=20" class="img-small">      
+  <div style="padding-bottom: 50%;"></div>     
+</div>  
+
+<script>
+window.onload = function() {
+  var placeholders = document.querySelectorAll('.placeholder');
+  for (var i = 0; i < placeholders.length; i++) {
+    loadImage(placeholders[i]);
+  }
+
+  function loadImage(placeholder) {
+    var small = placeholder.children[0];
+
+    // 1: load small image and show it
+    var img = new Image();
+    img.src = small.src;
+    img.onload = function() {
+      small.classList.add('loaded');
+    };
+
+    // 2: load large image
+    var imgLarge = new Image();
+    imgLarge.src = placeholder.dataset.large;
+    imgLarge.onload = function() {
+      imgLarge.classList.add('loaded');
+    };
+    placeholder.appendChild(imgLarge);
+  }
+}	
+</script>
+</body>
+</html>
